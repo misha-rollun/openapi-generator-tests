@@ -1,0 +1,86 @@
+openapi: 3.0.3
+info:
+  title: Security
+  description: Security
+  version: 1.0.0
+servers:
+  - url: 'https://example.com'
+paths:
+  '/basic':
+    get:
+      security:
+        - BasicAuth: []
+      responses:
+        "200":
+          description: Basic authorization
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResourceListResult"
+  '/bearer':
+      get:
+        security:
+          - BearerAuth: []
+        responses:
+          "200":
+            description: Bearer authorization
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/ResourceListResult"
+  '/oauth2':
+      get:
+        security:
+          - OAuth2:
+              - read
+        responses:
+          "200":
+            description: OAuth 2 authorization
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/ResourceListResult"
+  '/multiple':
+    get:
+      security:
+        - BasicAuth: []
+        - BearerAuth: []
+        - OAuth2:
+            - read
+      responses:
+        "200":
+          description: OAuth 2 authorization
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResourceListResult"
+components:
+  schemas:
+    ResourceListResult:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Resource'
+    Resource:
+      type: object
+      properties:
+        id:
+          type: string
+
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+    BearerAuth:
+      type: http
+      scheme: bearer
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://example.com/oauth/authorize
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            read: Grants read access

@@ -1,0 +1,25 @@
+Articus\PathHandler\RouteInjection\Factory:
+  paths:
+    '':
+    - App\Handler\Basic
+    - App\Handler\Bearer
+    - App\Handler\Multiple
+    - App\Handler\Oauth2
+  handlers:
+    abstract_factories:
+    - Zend\ServiceManager\AbstractFactory\ConfigAbstractFactory
+#  consumers:
+#    factories:
+#    invokables:
+#  attributes:
+#    factories:
+#    invokables:
+#  producers:
+#    factories:
+#    invokables:
+
+Zend\ServiceManager\AbstractFactory\ConfigAbstractFactory:
+  App\Handler\Basic: []
+  App\Handler\Bearer: []
+  App\Handler\Multiple: []
+  App\Handler\Oauth2: []
