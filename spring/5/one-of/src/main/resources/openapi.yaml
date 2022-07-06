@@ -1,0 +1,74 @@
+openapi: 3.0.3
+info:
+  description: OneOf
+  title: OneOf
+  version: 1.0.0
+servers:
+- url: https://example.com
+paths:
+  /shops:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShopListResult'
+          description: Success
+      security:
+      - BasicAuth: []
+      x-accepts: application/json
+components:
+  schemas:
+    ShopListResult:
+      example:
+        data:
+        - id: id
+          info: null
+        - id: id
+          info: null
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Shop'
+          type: array
+      type: object
+    Shop:
+      example:
+        id: id
+        info: null
+      properties:
+        id:
+          type: string
+        info:
+          $ref: '#/components/schemas/Shop_info'
+      type: object
+    BookShopInfo:
+      properties:
+        tags:
+          enum:
+          - books
+          - reading
+          type: string
+        genres:
+          items:
+            type: string
+          type: array
+      type: object
+    SupermarketInfo:
+      properties:
+        tags:
+          enum:
+          - food
+          - spices
+          type: string
+        vendors:
+          items:
+            type: string
+          type: array
+      type: object
+    Shop_info:
+      oneOf:
+      - $ref: '#/components/schemas/BookShopInfo'
+      - $ref: '#/components/schemas/SupermarketInfo'
+      x-one-of-name: ShopInfo
