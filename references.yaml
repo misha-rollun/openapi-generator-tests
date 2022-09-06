@@ -1,0 +1,34 @@
+openapi: 3.0.3
+info:
+  title: Security
+  description: Security
+  version: 1.0.0
+servers:
+  - url: 'https://example.com'
+paths:
+  '/basic':
+    get:
+      responses:
+        "200":
+          description: Basic authorization
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResourceListResult"
+        "500":
+          $ref: "https://raw.githubusercontent.com/belgif/openapi-problem/master/src/main/openapi/problem/v1/problem-v1.yaml#/components/responses/ProblemResponse"
+
+components:
+  schemas:
+    ResourceListResult:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Resource'
+    Resource:
+      type: object
+      properties:
+        id:
+          type: string
